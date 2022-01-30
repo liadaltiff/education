@@ -1,9 +1,9 @@
 import classes from "./home-page.module.scss";
 
-const HomePage: React.FC = () => {
+const HomePage = () => {
   return (
     <div className={classes.root}>
-      <h1>THIS IS A TEXT</h1>
+      <h1 className={classes.bigtext}>טקסט</h1>
     </div>
   );
 };
