@@ -1,0 +1,26 @@
+.root {
+  display: flex;
+  background-color: #8fb8de;
+  height: 4rem;
+  width: 100%;
+  font-size: 1rem;
+  justify-content: space-between;
+}
+
+.leftSide {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+}
+
+.buttonStyle {
+  display: flex;
+  background-color: #8fb8de;
+  letter-spacing: 0.05rem;
+  border: none;
+  text-align: center;
+  cursor: pointer;
+  justify-content: end;
+  height: 100%;
+  padding-right: 1rem;
+}

@@ -13,7 +13,8 @@
     "react-leaflet": "^3.2.5",
     "react-router": "^6.2.1",
     "react-router-dom": "^6.2.1",
-    "sass": "^1.49.0"
+    "sass": "^1.49.0",
+    "swr": "^1.2.0"
   },
   "devDependencies": {
     "@types/leaflet": "^1.7.9",
