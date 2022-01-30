@@ -15,7 +15,7 @@ const Leaflet = () => {
       />
       <Marker position={[32, 35]}>
         <Popup>
-          A pretty CSS3 popup. <br /> Easily customizable.
+          A Popup <br /> Easily customizable.
         </Popup>
       </Marker>
     </MapContainer>
