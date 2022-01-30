@@ -4,7 +4,7 @@ import classes from "./leaflet.module.scss";
 const Leaflet = () => {
   return (
     <MapContainer
-      center={[51.505, -0.09]}
+      center={[50, 50]}
       zoom={13}
       scrollWheelZoom={true}
       className={classes.mapContainer}
@@ -13,7 +13,7 @@ const Leaflet = () => {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <Marker position={[51.505, -0.09]}>
+      <Marker position={[32, 35]}>
         <Popup>
           A pretty CSS3 popup. <br /> Easily customizable.
         </Popup>
