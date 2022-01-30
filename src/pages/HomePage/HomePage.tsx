@@ -1,9 +1,10 @@
 import classes from "./home-page.module.scss";
+import Leaflet from "../../components/leaflet";
 
 const HomePage = () => {
   return (
     <div className={classes.root}>
-      <h1 className={classes.bigtext}>טקסט</h1>
+      <Leaflet />
     </div>
   );
 };
