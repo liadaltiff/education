@@ -1,5 +1,5 @@
 import classes from "./home-page.module.scss";
-import Leaflet from "../../components/leaflet";
+import Leaflet from "../../components/leaflet/leaflet";
 
 const HomePage = () => {
   return (
