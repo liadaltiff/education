@@ -25,7 +25,6 @@ const Leaflet = () => {
         });
       }) as LatLngExpression[][],
     []
-    //update
   );
 
   return (
@@ -43,18 +42,6 @@ const Leaflet = () => {
       />
 
       <Polygon pathOptions={purpleOptions} positions={multyLine}></Polygon>
-      {data.features.map((neighbourhood) => {
-        return (
-          <Polyline
-            pathOptions={purpleOptions}
-            positions={
-              neighbourhood.geometry.coordinates[0].map((cordinates) => {
-                return [cordinates[1], cordinates[0]];
-              }) as LatLngExpression[]
-            }
-          />
-        );
-      })}
       {data.features.map((neighbourhood) => {
         return neighbourhood.properties.schools.map((school) => {
           console.log(school);
