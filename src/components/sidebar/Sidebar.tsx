@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
-import Institute from "../Institute/Institute";
-import Institutes from "../Institutes/Institutes";
-import Neighbourhoods from "../neighbourhoods/neighbourhoods";
+import Institute from "../institute/Institute";
+import Institutes from "../institutes/Institutes";
+import Neighbourhoods from "../neighbourhoods/Neighbourhoods";
 import classes from "./sidebar.module.scss";
 import clsx from "clsx";
 
