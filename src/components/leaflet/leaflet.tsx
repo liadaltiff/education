@@ -9,7 +9,7 @@ import {
 import classes from "./leaflet.module.scss";
 import data from "../../../neighbourhoods.json";
 import { LatLngExpression } from "leaflet";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 
 const Leaflet = () => {
   const purpleOptions = {
@@ -17,6 +17,7 @@ const Leaflet = () => {
     fillColor: "red",
     fillOpacity: 0.5,
   };
+  const [selectedNeighbourhood, setSelectedNeighbourhood] = useState();
   const multyLine = useMemo(
     () =>
       data.features.map((neighbourhood) => {
