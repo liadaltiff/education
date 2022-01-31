@@ -4,15 +4,23 @@ import Institutes from "../institutes/Institutes";
 import Neighbourhoods from "../neighbourhoods/Neighbourhoods";
 import classes from "./sidebar.module.scss";
 import clsx from "clsx";
+import { ActiveTabContext } from "../../contexts/activeTabContext";
+import { SelectedNeighbourhoodIdContext } from "../../contexts/neighbourhoodContext";
 
 function SideBar() {
-  const [activeTab, setActiveTab] = useState("שכונות");
-
+  const { activeTab, setActiveTab } = useContext(ActiveTabContext);
+  const { selectedNeighbourhoodName } = useContext(
+    SelectedNeighbourhoodIdContext
+  );
+  useEffect(() => {
+    setActiveTab("שכונות");
+  }, []);
   return (
     <div>
       <div className={classes.container}>
         <div className={classes.selectionAreaText}>
-          <h5>בחר אזור</h5>
+          {!selectedNeighbourhoodName && <h5>בחר אזור</h5>}
+          {selectedNeighbourhoodName && <h5>{selectedNeighbourhoodName}</h5>}
         </div>
         <div className={classes.selectionArea}>
           <div className={classes.selectionAreaNavBar}>
