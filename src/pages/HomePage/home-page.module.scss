@@ -1,4 +1,14 @@
 .root {
   display: flex;
   flex-direction: column;
+  overflow: scroll;
+  overflow-x: hidden;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.gridComponents {
+  display: grid;
+  grid-auto-flow: column;
 }
