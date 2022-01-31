@@ -43,10 +43,15 @@ const Leaflet = () => {
       />
 
       <Polygon pathOptions={purpleOptions} positions={multyLine}></Polygon>
+
       {data.features.map((neighbourhood) => {
-        return neighbourhood.properties.schools.map((school) => {
-          console.log(school);
-          return <Marker position={[school.latitude, school.longitude]} />;
+        return neighbourhood.properties.schools.map((school, index) => {
+          return (
+            <Marker
+              position={[school.latitude, school.longitude]}
+              key={index}
+            />
+          );
         });
       })}
     </MapContainer>
