@@ -55,6 +55,12 @@ const Leaflet = () => {
           />
         );
       })}
+      {data.features.map((neighbourhood) => {
+        return neighbourhood.properties.schools.map((school) => {
+          console.log(school);
+          return <Marker position={[school.latitude, school.longitude]} />;
+        });
+      })}
     </MapContainer>
   );
 };
