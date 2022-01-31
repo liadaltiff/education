@@ -1,0 +1,55 @@
+.container {
+  height: 98.6%;
+  width: 28rem;
+  background-color: rgb(161, 214, 255);
+  display: grid;
+  justify-content: space-evenly;
+  padding-top: 0.8rem;
+}
+.selectionAreaText {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 4rem;
+  width: 26rem;
+  border-radius: 0.3rem;
+  font-size: 2.2rem;
+  font-weight: bold;
+  background-color: #ebf6ff;
+}
+.selectionArea {
+  background-color: #c2e4ff;
+  display: flex;
+  height: 48rem;
+  width: 100%;
+  border-radius: 0.3rem;
+}
+.activeBtn {
+  background-color: #c2e4ff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1rem;
+  width: 3rem;
+  padding: 0.5rem 4.333333rem;
+  border: none;
+  cursor: pointer;
+}
+.unActiveBtn {
+  background-color: whitesmoke;
+  filter: brightness(0.7);
+  padding: 0.5rem 4.333333rem;
+  display: flex;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  font-size: 1rem;
+  width: 3rem;
+  border: none;
+}
+.selectionAreaNavBar {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  width: 0rem;
+}

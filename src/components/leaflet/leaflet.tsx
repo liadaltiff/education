@@ -12,7 +12,11 @@ import { LatLngExpression } from "leaflet";
 import { useMemo } from "react";
 
 const Leaflet = () => {
-  const purpleOptions = { color: "white", fillColor: "#e76f51" };
+  const purpleOptions = {
+    color: "white",
+    fillColor: "red",
+    fillOpacity: 0.5,
+  };
   const multyLine = useMemo(
     () =>
       data.features.map((neighbourhood) => {
@@ -29,6 +33,8 @@ const Leaflet = () => {
       center={[32.08, 34.778]}
       zoom={13}
       scrollWheelZoom={true}
+      zoomControl={false}
+      attributionControl={false}
       className={classes.mapContainer}
     >
       <TileLayer
