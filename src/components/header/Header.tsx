@@ -1,15 +1,15 @@
+import React, { useContext } from "react";
 import classes from "./header.module.scss";
 
-const Header = () => {
+function NavBar() {
   return (
-    <div className={classes.root}>
-      <div className={classes.leftSide}>
-        <button className={classes.buttonStyle} />
-        <button className={classes.buttonStyle} />
-        <button className={classes.buttonStyle} />
+    <div>
+      <div className={classes.topnav}>
+        <a>
+          <h2>ניתוב תלמידים למקומות ממוגנים</h2>
+        </a>
       </div>
     </div>
   );
-};
-
-export default Header;
+}
+export default NavBar;
