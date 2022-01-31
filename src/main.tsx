@@ -3,12 +3,18 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import { BrowserRouter } from "react-router-dom";
+import { ActiveTabProvider } from "./contexts/activeTabContext";
+import { SelectedNeighbourhoodIdProvider } from "./contexts/neighbourhoodContext";
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <SelectedNeighbourhoodIdProvider>
+      <ActiveTabProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </ActiveTabProvider>
+    </SelectedNeighbourhoodIdProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );
