@@ -1,25 +1,36 @@
+.container {
+  // padding: 3.5rem 1rem 5.8rem 0;
+  flex-direction: column;
+  padding: {
+    block: 1rem;
+    inline: 1rem;
+  }
+}
+
 .neighbourhoodContainer {
-  width: 24rem;
-  height: 100%;
+  height: 72vh;
   display: flex;
   flex-direction: column;
-  overflow-y: scroll;
+  justify-content: flex-start;
+  align-items: center;
+  overflow-y: auto;
   direction: ltr;
-  padding-right: 0.3rem;
+  gap: 1rem;
+  padding: {
+    right: 1rem;
+  }
 }
-.container {
-  padding: 3.5rem 1rem 5.8rem 0;
-  flex-direction: column;
-}
+
 .neighbourhood {
   background-color: whitesmoke;
-  width: 22rem;
+  width: 100%;
+  // width: 22rem;
+  box-sizing: border-box;
   border-radius: 0.2rem;
-  margin-bottom: 1rem;
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  padding: 0.7rem 0.7rem 0.7rem 0rem;
+  padding: 0.7rem;
   cursor: pointer;
 }
 ::-webkit-scrollbar {
@@ -35,7 +46,8 @@
 }
 .searchInput {
   border: none;
-  width: 17rem;
+  width: 100%;
+  // width: 17rem;
   height: 2.2rem;
   border-radius: 0.3rem;
   font-size: 1rem;

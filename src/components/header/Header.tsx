@@ -1,15 +1,11 @@
 import React, { useContext } from "react";
 import classes from "./header.module.scss";
 
-function NavBar() {
+function Header() {
   return (
-    <div>
-      <div className={classes.topnav}>
-        <a>
-          <h2>ניתוב תלמידים למקומות ממוגנים</h2>
-        </a>
-      </div>
+    <div className={classes.headerButton}>
+      <div className={classes.headerBack}>back</div>
     </div>
   );
 }
-export default NavBar;
+export default Header;

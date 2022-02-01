@@ -15,47 +15,40 @@ function SideBar() {
   useEffect(() => {
     setActiveTab("שכונות");
   }, []);
+
+  useEffect(() => {
+    console.log("tab", activeTab);
+  }, [activeTab]);
+
+  const btns = ["שכונות", "מוסדות", "מוסד"];
+
   return (
-    <div>
-      <div className={classes.container}>
-        <div className={classes.selectionAreaText}>
-          {!selectedNeighbourhoodName && <h5>בחר אזור</h5>}
-          {selectedNeighbourhoodName && <h5>{selectedNeighbourhoodName}</h5>}
+    <div className={classes.container}>
+      <div className={classes.currentText}>
+        {!selectedNeighbourhoodName && <h5>בחר אזור</h5>}
+        {selectedNeighbourhoodName && <h5>{selectedNeighbourhoodName}</h5>}
+      </div>
+      <div className={classes.selection}>
+        <div className={classes.navBtns}>
+          {btns.map((type, key) => {
+            return (
+              <button
+                key={key}
+                className={clsx(classes.btn, {
+                  [classes.active]: type === activeTab,
+                })}
+                onClick={() => setActiveTab(type)}
+              >
+                {type}
+              </button>
+            );
+          })}
         </div>
-        <div className={classes.selectionArea}>
-          <div className={classes.selectionAreaNavBar}>
-            <button
-              className={clsx(
-                classes.unActiveBtn,
-                activeTab === "שכונות" && classes.activeBtn
-              )}
-              onClick={() => setActiveTab("שכונות")}
-            >
-              שכונות
-            </button>
-            <button
-              className={clsx(
-                classes.unActiveBtn,
-                activeTab === "מוסדות" && classes.activeBtn
-              )}
-              onClick={() => setActiveTab("מוסדות")}
-            >
-              מוסדות
-            </button>
-            <button
-              className={clsx(
-                classes.unActiveBtn,
-                activeTab === "מוסד" && classes.activeBtn
-              )}
-              onClick={() => setActiveTab("מוסד")}
-            >
-              מוסד
-            </button>
-          </div>
+        <section className={classes.content}>
           {activeTab === "שכונות" && <Neighbourhoods />}
           {activeTab === "מוסדות" && <Institutes />}
           {activeTab === "מוסד" && <Institute />}
-        </div>
+        </section>
       </div>
     </div>
   );

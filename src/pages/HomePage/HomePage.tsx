@@ -6,7 +6,7 @@ import Sidebar from "../../components/sidebar/Sidebar";
 const HomePage = () => {
   return (
     <div className={classes.root}>
-      <Header />
+      {/* <Header /> */}
       <div className={classes.gridComponents}>
         <Sidebar />
         <Leaflet />

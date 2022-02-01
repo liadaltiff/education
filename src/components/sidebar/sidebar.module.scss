@@ -1,55 +1,70 @@
 .container {
-  height: 98.6%;
-  width: 28rem;
+  height: 100%;
+  width: 20vw;
   background-color: rgb(161, 214, 255);
-  display: grid;
-  justify-content: space-evenly;
-  padding-top: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-content: center;
+  gap: 1rem;
+  padding: {
+    block: 1rem;
+    inline: 1rem;
+  }
 }
-.selectionAreaText {
+.currentText {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 4rem;
-  width: 26rem;
   border-radius: 0.3rem;
   font-size: 2.2rem;
   font-weight: bold;
   background-color: #ebf6ff;
+  padding: {
+    block: 1rem;
+  }
+  h5 {
+    margin: 0;
+  }
 }
-.selectionArea {
+.selection {
+  display: flex;
+  flex-direction: column;
   background-color: #c2e4ff;
   display: flex;
-  height: 48rem;
+  overflow-y: auto;
   width: 100%;
   border-radius: 0.3rem;
 }
-.activeBtn {
-  background-color: #c2e4ff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 1rem;
-  width: 3rem;
-  padding: 0.5rem 4.333333rem;
-  border: none;
-  cursor: pointer;
-}
-.unActiveBtn {
-  background-color: whitesmoke;
-  filter: brightness(0.7);
-  padding: 0.5rem 4.333333rem;
+
+.btn {
+  padding: {
+    block: 0.5rem;
+  }
+  width: 100%;
   display: flex;
   cursor: pointer;
   justify-content: center;
   align-items: center;
   font-size: 1rem;
-  width: 3rem;
   border: none;
 }
-.selectionAreaNavBar {
+
+.active {
+  background-color: blue;
+}
+.navBtns {
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
-  width: 0rem;
+}
+
+.content {
+  background-color: #c2e4ff;
+  height: 100%;
+}
+
+@media (max-width: 1200px) {
+  .container {
+    width: 40vw;
+  }
 }
