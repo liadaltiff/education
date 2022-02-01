@@ -10,13 +10,42 @@ import classes from "./leaflet.module.scss";
 import data from "../../../neighbourhoods.json";
 import { LatLngExpression } from "leaflet";
 import { useMemo, useState } from "react";
+import React from "react";
+
+const optionsLevels = ["1", "2", "3", "4"];
 
 const Leaflet = () => {
+  //////////////////////////////////////////////////////////////////////////
+  const [open, setOpen] = React.useState(false);
+  const anchorRef = React.useRef<HTMLDivElement>(null);
+  const [selectedIndex, setSelectedIndex] = React.useState(1);
+
+  const handleMenuItemClick = (
+    event: React.MouseEvent<HTMLLIElement, MouseEvent>,
+    index: number
+  ) => {
+    setSelectedIndex(index);
+    setOpen(false);
+  };
+  const handleToggle = () => {
+    setOpen((prevOpen) => !prevOpen);
+  };
+  const handleClose = (event: Event) => {
+    if (
+      anchorRef.current &&
+      anchorRef.current.contains(event.target as HTMLElement)
+    ) {
+      return;
+    }
+    setOpen(false);
+  };
+  //////////////////////////////////////////////////////////////////////////
   const purpleOptions = {
     color: "white",
     fillColor: "red",
     fillOpacity: 0.5,
   };
+
   const [selectedNeighbourhood, setSelectedNeighbourhood] = useState();
   const multyLine = useMemo(
     () =>
@@ -45,7 +74,7 @@ const Leaflet = () => {
 
         <Polygon pathOptions={purpleOptions} positions={multyLine}></Polygon>
 
-        {data.features.map((neighbourhood) => {
+        {/* {data.features.map((neighbourhood) => {
           return neighbourhood.properties.schools.map((school, index) => {
             return (
               <Marker
@@ -54,9 +83,9 @@ const Leaflet = () => {
               />
             );
           });
-        })}
+        })} */}
       </MapContainer>
-      <button className={classes.button}>liad</button>
+      <button className={classes.button}>מצבים</button>
     </div>
   );
 };
