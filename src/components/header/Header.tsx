@@ -3,8 +3,8 @@ import classes from "./header.module.scss";
 
 function Header() {
   return (
-    <div className={classes.headerButton}>
-      <div className={classes.headerBack}>back</div>
+    <div className={classes.headerOne}>
+      <div className={classes.headerTwo}>?</div>
     </div>
   );
 }
