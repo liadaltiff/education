@@ -1,6 +1,5 @@
 export interface Polygon {
   type: string;
-  geometry: Geometry;
   properties: Properties;
 }
 
@@ -18,7 +17,7 @@ export interface School {
 
 export interface Geometry {
   type: string;
-  coordinates: number[][][]; // [[[longitude, latitude], [longitude, latitude], ...], [[longitude, latitude], [longitude, latitude], ...]]
+  coordinates: number[][][] | number[][] | number[];
 }
 
 export interface Properties {
@@ -27,5 +26,5 @@ export interface Properties {
   msshchuna: number;
   shemshchun: string;
   UniqueId: string;
-  schools: School[]; // array of schools
+  schools: School[];
 }

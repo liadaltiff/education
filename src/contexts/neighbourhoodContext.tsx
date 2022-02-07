@@ -1,47 +1,32 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
+import { Polygon } from "../types/neighbourhood.type";
+import data from "../../neighbourhoods.json";
 
-interface SelectedNeighbourhoodIdContextProps {
-  selectedNeighbourhoodId: string | undefined;
-  setSelectedNeighbourhoodId: React.Dispatch<
-    React.SetStateAction<string | undefined>
-  >;
-  selectedNeighbourhoodName: string | undefined;
-  setSelectedNeighbourhoodName: React.Dispatch<
-    React.SetStateAction<string | undefined>
-  >;
+interface NeighbourhoodContextProps {
+  selected: Polygon | undefined;
+  setSelected: React.Dispatch<React.SetStateAction<Polygon | undefined>>;
 }
 
-export const SelectedNeighbourhoodIdContext =
-  createContext<SelectedNeighbourhoodIdContextProps>({
-    selectedNeighbourhoodId: undefined,
-    setSelectedNeighbourhoodId: () => {},
-    selectedNeighbourhoodName: undefined,
-    setSelectedNeighbourhoodName: () => {},
-  });
+export const NeighbourhoodContext = createContext<NeighbourhoodContextProps>({
+  selected: undefined,
+  setSelected: () => {},
+});
 
-interface SelectedNeighbourhoodIdProps {}
+interface NeighbourhoodProviderProps {}
 
-export const SelectedNeighbourhoodIdProvider: React.FC<
-  SelectedNeighbourhoodIdProps
-> = (props) => {
-  const [selectedNeighbourhoodId, setSelectedNeighbourhoodId] = useState<
-    string | undefined
-  >();
-
-  const [selectedNeighbourhoodName, setSelectedNeighbourhoodName] = useState<
-    string | undefined
-  >();
+export const NeighbourhoodProvider: React.FC<NeighbourhoodProviderProps> = (
+  props
+) => {
+  const [selected, setSelected] = useState<Polygon | undefined>();
 
   return (
-    <SelectedNeighbourhoodIdContext.Provider
+    <NeighbourhoodContext.Provider
       value={{
-        selectedNeighbourhoodId,
-        setSelectedNeighbourhoodId,
-        selectedNeighbourhoodName,
-        setSelectedNeighbourhoodName,
+        selected,
+        setSelected,
       }}
     >
       {props.children}
-    </SelectedNeighbourhoodIdContext.Provider>
+    </NeighbourhoodContext.Provider>
   );
 };
