@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { SelectedInstituteContext } from "../../../../../contexts/instituteContext";
 import classes from "./institute-transfer.module.scss";
 import { distance } from "./utils";
@@ -6,10 +6,12 @@ import { distance } from "./utils";
 const InstituteTransfer = () => {
   const { selectedInstitute } = useContext(SelectedInstituteContext);
 
-  const openMenu = () => {
-    <div>
-      <h1>hey</h1>
-    </div>;
+  const Menu = () => {
+    return (
+      <div>
+        <h1>hey</h1>
+      </div>
+    );
   };
 
   return (
@@ -23,15 +25,22 @@ const InstituteTransfer = () => {
       <div className={classes.instituteContainer}>
         {selectedInstitute &&
           distance(selectedInstitute).map((school: any) => {
+            const [isClicked, setIsClicked] = useState(false);
             return (
-              <div
-                key={school[0]}
-                className={classes.school}
-                onClick={() => openMenu()}
-              >
-                <a className={classes.distance}>{school[1]} ק"מ</a>
-                <a>{school[0]}</a>
-              </div>
+              <>
+                <div
+                  onClick={() => {
+                    setIsClicked(!isClicked);
+                  }}
+                  key={school[0]}
+                  className={classes.school}
+                >
+                  <a className={classes.distance}>{school[1]} ק"מ</a>
+                  <a>{school[0]}</a>
+                </div>
+
+                <div>{isClicked && <Menu />}</div>
+              </>
             );
           })}
       </div>
