@@ -6,7 +6,11 @@ import { distance } from "./utils";
 const InstituteTransfer = () => {
   const { selectedInstitute } = useContext(SelectedInstituteContext);
 
-  const openMenu = () => {};
+  const openMenu = () => {
+    <div>
+      <h1>hey</h1>
+    </div>;
+  };
 
   return (
     <div className={classes.container}>
