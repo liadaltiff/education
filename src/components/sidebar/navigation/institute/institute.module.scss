@@ -1,0 +1,80 @@
+.container {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  width: 100%;
+}
+.studentsInfo {
+  height: 6.5vh;
+  width: 100%;
+  background-color: #d6edff;
+  display: flex;
+  justify-content: flex-start;
+  align-content: center;
+  flex-direction: row;
+}
+.studentsAmountContainer {
+  padding-right: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+  padding: 0.8rem 1rem 0.8rem 0;
+}
+.studentsAmountText {
+  margin-left: 2.3rem;
+}
+
+.fixPlacesLeft {
+  direction: ltr;
+  text-align: right;
+}
+
+.smallerText {
+  font-size: 1.3rem;
+  font-weight: normal;
+}
+
+.instituteInfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding-right: 1rem;
+  font-size: 1.3rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+.instituteName {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.amount {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  width: 2.6rem;
+  height: 2.2rem;
+  border-radius: 0.3rem;
+}
+
+.studentsFillContainer {
+  font-weight: bold;
+  padding-right: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.havePlace {
+  background-color: rgb(201, 228, 197);
+  padding-left: 1rem;
+}
+.dontHavePlace {
+  background-color: rgb(254, 197, 187);
+  padding-left: 1rem;
+}
+.zeroPlace {
+  background-color: rgb(171, 189, 204);
+  padding-left: 1rem;
+}

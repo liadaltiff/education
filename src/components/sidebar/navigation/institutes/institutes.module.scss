@@ -1,5 +1,4 @@
 .container {
-  // padding: 3.5rem 1rem 5.8rem 0;
   flex-direction: column;
   padding: {
     block: 1rem;
@@ -7,7 +6,7 @@
   }
 }
 
-.neighbourhoodContainer {
+.instituteContainer {
   height: 72vh;
   display: flex;
   flex-direction: column;
@@ -24,30 +23,24 @@
 .neighbourhood {
   background-color: whitesmoke;
   width: 100%;
-  // width: 22rem;
   box-sizing: border-box;
   border-radius: 0.2rem;
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  padding: 0.7rem;
   cursor: pointer;
+
+  span {
+    padding: {
+      block: 0.7rem;
+      right: 0.7rem;
+    }
+  }
 }
-::-webkit-scrollbar {
-  width: 1.2rem;
-}
-::-webkit-scrollbar-thumb {
-  background: #f19c79;
-  border-radius: 4px;
-}
-::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 5px grey;
-  border-radius: 4px;
-}
+
 .searchInput {
   border: none;
   width: 100%;
-  // width: 17rem;
   height: 2.2rem;
   border-radius: 0.3rem;
   font-size: 1rem;
@@ -57,4 +50,31 @@
   justify-content: center;
   align-items: center;
   margin-bottom: 1rem;
+}
+.instituteRed {
+  background-color: #e76f51;
+  width: 2.5rem;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0.3rem;
+}
+.instituteOrange {
+  background-color: #f4a261;
+  width: 2.5rem;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0.3rem;
+}
+.instituteYellow {
+  background-color: #e9c46a;
+  width: 2.5rem;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0.3rem;
 }

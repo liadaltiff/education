@@ -1,67 +1,75 @@
 import {
   MapContainer,
   TileLayer,
-  Marker,
-  Popup,
   Polyline,
   Polygon,
+  Tooltip,
+  Marker,
 } from "react-leaflet";
 import classes from "./leaflet.module.scss";
 import data from "../../../neighbourhoods.json";
-import { LatLngExpression } from "leaflet";
-import { useMemo, useState } from "react";
-import React from "react";
-
-const optionsLevels = ["1", "2", "3", "4"];
+import { Icon, latLngBounds, LatLngExpression, map } from "leaflet";
+import { useCallback, useContext, useMemo, useState } from "react";
+import { calculatePercentage } from "../../utils/utils.util";
+import { NeighbourhoodContext } from "../../contexts/neighbourhoodContext";
+import {
+  Polygon as neighbourhood,
+  School,
+} from "../../types/neighbourhood.type";
+import { CurrentTabContext } from "../../contexts/currentTabContext";
+import { SelectedInstituteContext } from "../../contexts/instituteContext";
+import TransferedStudents from "../transferedStudents/TransferedStudents";
+import ChangeLevel from "../changeLevel/ChangeLevel";
+import { LevelContext } from "../../contexts/levelContext";
+import { activeColor, activeSelectedColor } from "./leaflet.utils";
 
 const Leaflet = () => {
-  //////////////////////////////////////////////////////////////////////////
-  const [open, setOpen] = React.useState(false);
-  const anchorRef = React.useRef<HTMLDivElement>(null);
-  const [selectedIndex, setSelectedIndex] = React.useState(1);
+  const [selectedZoom, setSelectedZoom] = useState(13);
 
-  const handleMenuItemClick = (
-    event: React.MouseEvent<HTMLLIElement, MouseEvent>,
-    index: number
-  ) => {
-    setSelectedIndex(index);
-    setOpen(false);
+  const { selected, setSelected } = useContext(NeighbourhoodContext);
+  const { setSelectedInstitute } = useContext(SelectedInstituteContext);
+  const { setCurrentTab } = useContext(CurrentTabContext);
+  const { space } = useContext(LevelContext);
+
+  const polygonHandler = (neighbourhood: neighbourhood) => {
+    setSelected(neighbourhood);
+    setCurrentTab("מוסדות");
+    setSelectedZoom(6);
   };
-  const handleToggle = () => {
-    setOpen((prevOpen) => !prevOpen);
+
+  const instituteHandler = (school: School) => {
+    setSelectedInstitute(school);
+    setCurrentTab("מוסד");
   };
-  const handleClose = (event: Event) => {
-    if (
-      anchorRef.current &&
-      anchorRef.current.contains(event.target as HTMLElement)
-    ) {
-      return;
+
+  const changeCordinates = (coords: [number, number]) => {
+    return [coords[1], coords[0]];
+  };
+
+  const hoods = useMemo(() => {
+    return data.features.map((hoodss) => ({
+      ...hoodss,
+      geometry: {
+        coordinates: hoodss.geometry.coordinates
+          .flat()
+          .map((coords) => changeCordinates(coords as [number, number])),
+      },
+    }));
+  }, []);
+
+  const colorPolygon = (selected: boolean, percentage: number) => {
+    if (selected) {
+      return activeSelectedColor(percentage);
+    } else {
+      return activeColor(percentage);
     }
-    setOpen(false);
   };
-  //////////////////////////////////////////////////////////////////////////
-  const purpleOptions = {
-    color: "white",
-    fillColor: "red",
-    fillOpacity: 0.5,
-  };
-
-  const [selectedNeighbourhood, setSelectedNeighbourhood] = useState();
-  const multyLine = useMemo(
-    () =>
-      data.features.map((neighbourhood) => {
-        return neighbourhood.geometry.coordinates[0].map((cordinates) => {
-          return [cordinates[1], cordinates[0]];
-        });
-      }) as LatLngExpression[][],
-    []
-  );
 
   return (
-    <div>
+    <div className={classes.map}>
       <MapContainer
-        center={[32.08, 34.778]}
-        zoom={13}
+        center={[32.09, 34.8]}
+        zoom={selectedZoom}
         scrollWheelZoom={true}
         zoomControl={false}
         attributionControl={false}
@@ -72,20 +80,60 @@ const Leaflet = () => {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
 
-        <Polygon pathOptions={purpleOptions} positions={multyLine}></Polygon>
-
-        {/* {data.features.map((neighbourhood) => {
-          return neighbourhood.properties.schools.map((school, index) => {
+        {hoods.map((hood, key) => {
+          if (hood.properties.UniqueId === selected?.properties.UniqueId) {
             return (
-              <Marker
-                position={[school.latitude, school.longitude]}
-                key={index}
-              />
+              <>
+                <Polygon
+                  key={key}
+                  positions={hood.geometry.coordinates as LatLngExpression[]}
+                  pathOptions={colorPolygon(
+                    true,
+                    calculatePercentage(space, hood)
+                  )}
+                  eventHandlers={{
+                    click: () => polygonHandler(hood),
+                  }}
+                />
+                {hood.properties.schools.map((school, index) => {
+                  return (
+                    <Marker
+                      icon={
+                        new Icon({
+                          iconUrl: "../../../assets/school-image.png",
+                          iconSize: [30, 30],
+                        })
+                      }
+                      position={[school.latitude, school.longitude]}
+                      key={index}
+                      eventHandlers={{
+                        click: () => instituteHandler(school),
+                      }}
+                    >
+                      <Tooltip direction="center">{school.name}</Tooltip>
+                    </Marker>
+                  );
+                })}
+              </>
             );
-          });
-        })} */}
+          }
+          return (
+            <Polygon
+              key={key}
+              positions={hood.geometry.coordinates as LatLngExpression[]}
+              pathOptions={colorPolygon(
+                false,
+                calculatePercentage(space, hood)
+              )}
+              eventHandlers={{
+                click: () => polygonHandler(hood),
+              }}
+            />
+          );
+        })}
       </MapContainer>
-      <button className={classes.button}>מצבים</button>
+      <TransferedStudents />
+      <ChangeLevel />
     </div>
   );
 };

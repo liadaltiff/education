@@ -1,32 +1,29 @@
 import React, { useContext, useEffect, useState } from "react";
-import Institute from "../institute/Institute";
-import Institutes from "../institutes/Institutes";
-import Neighbourhoods from "../neighbourhoods/Neighbourhoods";
+import Institute from "./navigation/institute/Institute";
+import Institutes from "./navigation/institutes/Institutes";
+import Neighbourhoods from "./navigation/neighbourhoods/Neighbourhoods";
 import classes from "./sidebar.module.scss";
 import clsx from "clsx";
-import { ActiveTabContext } from "../../contexts/activeTabContext";
-import { SelectedNeighbourhoodIdContext } from "../../contexts/neighbourhoodContext";
+import { CurrentTabContext } from "../../contexts/currentTabContext";
+import { NeighbourhoodContext } from "../../contexts/neighbourhoodContext";
+import TransferedStudents from "../transferedStudents/TransferedStudents";
 
-function SideBar() {
-  const { activeTab, setActiveTab } = useContext(ActiveTabContext);
-  const { selectedNeighbourhoodName } = useContext(
-    SelectedNeighbourhoodIdContext
-  );
+const SideBar = () => {
+  const { currentTab, setCurrentTab } = useContext(CurrentTabContext);
+  const { selected } = useContext(NeighbourhoodContext);
   useEffect(() => {
-    setActiveTab("שכונות");
+    setCurrentTab("שכונות");
   }, []);
-
-  useEffect(() => {
-    console.log("tab", activeTab);
-  }, [activeTab]);
 
   const btns = ["שכונות", "מוסדות", "מוסד"];
 
   return (
     <div className={classes.container}>
       <div className={classes.currentText}>
-        {!selectedNeighbourhoodName && <h5>בחר אזור</h5>}
-        {selectedNeighbourhoodName && <h5>{selectedNeighbourhoodName}</h5>}
+        {!selected?.properties.shemshchun && <h4>בחר אזור</h4>}
+        {selected?.properties.shemshchun && (
+          <h4>{selected.properties.shemshchun}</h4>
+        )}
       </div>
       <div className={classes.selection}>
         <div className={classes.navBtns}>
@@ -35,9 +32,9 @@ function SideBar() {
               <button
                 key={key}
                 className={clsx(classes.btn, {
-                  [classes.active]: type === activeTab,
+                  [classes.active]: type === currentTab,
                 })}
-                onClick={() => setActiveTab(type)}
+                onClick={() => setCurrentTab(type)}
               >
                 {type}
               </button>
@@ -45,12 +42,12 @@ function SideBar() {
           })}
         </div>
         <section className={classes.content}>
-          {activeTab === "שכונות" && <Neighbourhoods />}
-          {activeTab === "מוסדות" && <Institutes />}
-          {activeTab === "מוסד" && <Institute />}
+          {currentTab === "שכונות" && <Neighbourhoods />}
+          {currentTab === "מוסדות" && <Institutes />}
+          {currentTab === "מוסד" && <Institute />}
         </section>
       </div>
     </div>
   );
-}
+};
 export default SideBar;
