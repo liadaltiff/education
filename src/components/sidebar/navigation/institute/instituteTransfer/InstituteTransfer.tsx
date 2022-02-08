@@ -1,21 +1,56 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { SelectedInstituteContext } from "../../../../../contexts/instituteContext";
 import classes from "./institute-transfer.module.scss";
 import { distance } from "./utils";
+import data from "../../../../../../neighbourhoods.json";
 
 const InstituteTransfer = () => {
   const { selectedInstitute } = useContext(SelectedInstituteContext);
+  const [selectedInstituteState, setSelectedInstituteState] =
+    useState<Number>();
+  const [selected, setSelcted] = useState();
 
   const Menu = () => {
     return (
       <div className={classes.openedPanel}>
-        <button className={classes.transferButton}>העבר</button>
+        <button onClick={transferStudents} className={classes.transferButton}>
+          העבר
+        </button>
         <input
           type="number"
           className={classes.openedPanelText}
           placeholder="כמות להעביר"
         ></input>
       </div>
+    );
+  };
+
+  const kaki = (selectedId: number) => {
+    const schools = data.features.map(
+      (neighbourhood) => neighbourhood.properties.schools
+    );
+    for (let i = 0; i < schools.length; i++) {
+      const selectedInst = schools[i].find(({ id }) => id === selectedId);
+      if (selectedInst) {
+        console.log(selectedInst);
+        return;
+      }
+    }
+  };
+
+  const transferStudents = () => {
+    console.log(
+      "מוסד שולח:",
+      selectedInstitute?.name,
+      "\n",
+      "סוג:",
+      selectedInstitute?.type,
+      "\n",
+      "מוסד מקבל:",
+      selectedInstitute?.type,
+      "\n",
+      "סוג:",
+      selectedInstituteState
     );
   };
 
@@ -35,7 +70,10 @@ const InstituteTransfer = () => {
               <>
                 <div
                   onClick={() => {
+                    console.log("school.id", school[0]);
+                    kaki(school[0]);
                     setIsClicked(!isClicked);
+                    setSelectedInstituteState(school.id);
                   }}
                   key={school[0]}
                   className={classes.school}
