@@ -8,8 +8,13 @@ const InstituteTransfer = () => {
 
   const Menu = () => {
     return (
-      <div>
-        <h1>hey</h1>
+      <div className={classes.openedPanel}>
+        <button className={classes.transferButton}>העבר</button>
+        <input
+          type="number"
+          className={classes.openedPanelText}
+          placeholder="כמות להעביר"
+        ></input>
       </div>
     );
   };
