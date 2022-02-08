@@ -8,7 +8,8 @@ const InstituteTransfer = () => {
   const { selectedInstitute } = useContext(SelectedInstituteContext);
   const [selectedInstituteState, setSelectedInstituteState] =
     useState<Number>();
-  const [selected, setSelcted] = useState();
+  const [selected, setSelcted] = useState({});
+  const [amountToTransfer, setAmountToTransfer] = useState("");
 
   const Menu = () => {
     return (
@@ -20,11 +21,14 @@ const InstituteTransfer = () => {
           type="number"
           className={classes.openedPanelText}
           placeholder="כמות להעביר"
+          onChange={(e) => {
+            setAmountToTransfer(e.currentTarget.value);
+          }}
+          //check amountToTransfer bug when you enter a number.
         ></input>
       </div>
     );
   };
-
   const kaki = (selectedId: number) => {
     const schools = data.features.map(
       (neighbourhood) => neighbourhood.properties.schools
@@ -32,11 +36,14 @@ const InstituteTransfer = () => {
     for (let i = 0; i < schools.length; i++) {
       const selectedInst = schools[i].find(({ id }) => id === selectedId);
       if (selectedInst) {
+        setSelcted(selectedInst);
         console.log(selectedInst);
         return;
       }
     }
   };
+
+  console.log("nigga", selected);
 
   const transferStudents = () => {
     console.log(
@@ -47,10 +54,13 @@ const InstituteTransfer = () => {
       selectedInstitute?.type,
       "\n",
       "מוסד מקבל:",
-      selectedInstitute?.type,
+      selected.name,
       "\n",
       "סוג:",
-      selectedInstituteState
+      selected.type,
+      "\n",
+      "כמות להעביר:",
+      amountToTransfer
     );
   };
 
