@@ -2,20 +2,24 @@ import { School } from "../../../../../types/neighbourhood.type";
 import data from "../../../../../../neighbourhoods.json";
 
 export const distance = (selectedInstitute: School) => {
-  let institutesDistance: [number, number][] = [];
   const schools = data.features.map((hood) => hood.properties.schools).flat();
-  schools.forEach((school) =>
-    institutesDistance.push([
-      school.id,
-      distanceCalc(
-        school.latitude,
-        school.longitude,
-        selectedInstitute.latitude,
-        selectedInstitute.longitude
-      ),
+  const instituteDistance = schools.map((school) => ({
+    schoolId: school.id,
+    schoolName: school.name,
+    calcDistance: distanceCalc(
+      school.latitude,
+      school.longitude,
+      selectedInstitute.latitude,
+      selectedInstitute.longitude
+    ),
+  }));
+  return sortByDistance(
+    instituteDistance.map((school) => [
+      school.schoolId,
+      school.schoolName,
+      school.calcDistance,
     ])
   );
-  return sortByDistance(institutesDistance);
 };
 
 const distanceCalc = (
@@ -32,8 +36,8 @@ const distanceCalc = (
   return Number(distanceKM.toFixed(2));
 };
 
-const sortByDistance = (institutesDistance: [number, number][]) => {
-  return institutesDistance.sort((a, b) => a[1] - b[1]);
+const sortByDistance = (institutesDistance: [number, string, number][]) => {
+  return institutesDistance.sort((a, b) => a[2] - b[2]);
 };
 // import { School } from "../../../../../types/neighbourhood.type";
 // import data from "../../../../../../neighbourhoods.json";

@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import classes from "./transfered-students.module.scss";
+import axios from "axios";
 
 const style = {
   position: "absolute" as "absolute",
@@ -18,9 +19,25 @@ const style = {
 };
 
 const TransferedStudents: React.FC = () => {
+  const [plansState, setPlansState] = useState();
+
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  useEffect(() => {
+    const getPlans = async () => {
+      const res = await axios.get("http://localhost:5000/plans/getPlans");
+      setPlansState(res.data);
+    };
+    getPlans();
+  }, []);
+
+  console.log("blah", plansState);
+
+  // const showPlans = plansState.map((plan: any) => (
+  //   //use context and plan type to create the map thingy
+  // )))
 
   return (
     <div className={classes.buttonPlacing}>
@@ -40,17 +57,33 @@ const TransferedStudents: React.FC = () => {
 
           <main className={classes.mainContent}>
             <section>
-              <header>תוכניות שמורות</header>
-              <main>טקסט</main>
-            </section>
-
-            <section>
               <header>פירוט התוכנית הנוכחית</header>
               <main>
-                <div className={classes.plan}></div>
-                <div className={classes.plan}></div>
-                <div className={classes.plan}></div>
-                <div className={classes.plan}></div>
+                <table className={classes.tablePlan}>
+                  <tr className={classes.trPlan}>
+                    <div className={classes.firstDivider}>
+                      <td className={classes.mainText}>מוסד שולח</td>
+                      <td className={classes.mainText}>סוג</td>
+                    </div>
+                    <div className={classes.dividerLineOne}></div>
+                    <div className={classes.secondDivider}>
+                      <td className={classes.mainText}>מוסד מקבל</td>
+                      <td className={classes.mainText}>סוג</td>
+                    </div>
+                    <div className={classes.dividerLineTwo}></div>
+                    <div className={classes.thirdDivider}>
+                      <td className={classes.mainText}>כמות</td>
+                    </div>
+                  </tr>
+                  <tr className={classes.trPlan}>
+                    <div className={classes.plan}>{/* {plansState} */}</div>
+                  </tr>
+                  <tr className={classes.trPlan}>
+                    <td>
+                      <div className={classes.plan}></div>
+                    </td>
+                  </tr>
+                </table>
               </main>
             </section>
           </main>

@@ -1,35 +1,25 @@
-import { useContext, useEffect, useState } from "react";
+import { FC, useContext, useEffect, useState } from "react";
 import { SelectedInstituteContext } from "../../../../../contexts/instituteContext";
 import classes from "./institute-transfer.module.scss";
 import { distance } from "./utils";
 import data from "../../../../../../neighbourhoods.json";
+import { Institute } from "../../../../../types/institute.type";
+import { NeighbourhoodInfoContext } from "../../../../../contexts/neighbourhoodInfoContext";
 
-const InstituteTransfer = () => {
+interface SelectedInstituteProps {
+  institute: Institute;
+}
+
+const InstituteTransfer: FC<SelectedInstituteProps> = ({ institute }) => {
+  const [selected, setSelcted] = useState<Institute>();
   const { selectedInstitute } = useContext(SelectedInstituteContext);
   const [selectedInstituteState, setSelectedInstituteState] =
     useState<Number>();
-  const [selected, setSelcted] = useState({});
-  const [amountToTransfer, setAmountToTransfer] = useState("");
+  const [amountToTransfer, setAmountToTransfer] = useState(0);
 
-  const Menu = () => {
-    return (
-      <div className={classes.openedPanel}>
-        <button onClick={transferStudents} className={classes.transferButton}>
-          העבר
-        </button>
-        <input
-          type="number"
-          className={classes.openedPanelText}
-          placeholder="כמות להעביר"
-          onChange={(e) => {
-            setAmountToTransfer(e.currentTarget.value);
-          }}
-          //check amountToTransfer bug when you enter a number.
-        ></input>
-      </div>
-    );
-  };
-  const kaki = (selectedId: number) => {
+  const { neighbourhoodInfo } = useContext(NeighbourhoodInfoContext);
+
+  const findSelectedInstitute = (selectedId: number) => {
     const schools = data.features.map(
       (neighbourhood) => neighbourhood.properties.schools
     );
@@ -43,25 +33,16 @@ const InstituteTransfer = () => {
     }
   };
 
-  console.log("nigga", selected);
-
   const transferStudents = () => {
-    console.log(
-      "מוסד שולח:",
-      selectedInstitute?.name,
-      "\n",
-      "סוג:",
-      selectedInstitute?.type,
-      "\n",
-      "מוסד מקבל:",
-      selected.name,
-      "\n",
-      "סוג:",
-      selected.type,
-      "\n",
-      "כמות להעביר:",
-      amountToTransfer
-    );
+    const toLog = {
+      from: selectedInstitute?.name,
+      typeOfSender: selectedInstitute?.type,
+      to: selected?.name,
+      typeOfGetter: selected?.type,
+      amount: amountToTransfer,
+    };
+
+    console.log("selected", JSON.stringify(toLog, null, 2));
   };
 
   return (
@@ -76,23 +57,30 @@ const InstituteTransfer = () => {
         {selectedInstitute &&
           distance(selectedInstitute).map((school: any) => {
             const [isClicked, setIsClicked] = useState(false);
+
             return (
               <>
                 <div
                   onClick={() => {
                     console.log("school.id", school[0]);
-                    kaki(school[0]);
+                    findSelectedInstitute(school[0]);
                     setIsClicked(!isClicked);
                     setSelectedInstituteState(school.id);
                   }}
                   key={school[0]}
                   className={classes.school}
                 >
-                  <a className={classes.distance}>{school[1]} ק"מ</a>
-                  <a>{school[0]}</a>
+                  <a className={classes.distance}>{school[2]} ק"מ</a>
+                  <a>{school[1]}</a>
                 </div>
 
-                <div>{isClicked && <Menu />}</div>
+                <div>
+                  {isClicked &&
+                    Menu(transferStudents, {
+                      get: amountToTransfer,
+                      set: setAmountToTransfer,
+                    })}
+                </div>
               </>
             );
           })}
@@ -101,3 +89,29 @@ const InstituteTransfer = () => {
   );
 };
 export default InstituteTransfer;
+
+const Menu = (
+  transferFn: () => void,
+  amount: {
+    get: number;
+    set: (value: number) => void;
+  }
+) => {
+  return (
+    <div className={classes.openedPanel}>
+      <button onClick={transferFn} className={classes.transferButton}>
+        העבר
+      </button>
+      <input
+        type="number"
+        id="amountToTransferx"
+        className={classes.openedPanelText}
+        placeholder="כמות להעביר"
+        onChange={(e) => {
+          amount.set(parseInt(e.currentTarget.value ?? 0));
+        }}
+        value={amount.get}
+      ></input>
+    </div>
+  );
+};

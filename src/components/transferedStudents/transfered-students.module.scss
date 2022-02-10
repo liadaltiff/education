@@ -44,16 +44,19 @@ $base: #fec89a;
     height: 100%;
     background-color: $base;
     display: grid;
-    grid-template-columns: 1fr 3fr;
+    grid-template-columns: 4fr;
     padding: 1rem;
     box-sizing: border-box;
     gap: 1rem;
+    width: 100%;
 
     section {
       border-radius: 0.4rem;
       overflow: hidden;
       display: grid;
       grid-template-rows: 1fr 9fr;
+      width: 100%;
+
       header {
         background-color: $lighter;
         font-size: 1.2rem;
@@ -79,13 +82,70 @@ $base: #fec89a;
     }
   }
 
+  .tablePlan {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .trPlan {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+  }
+
   .plan {
     background-color: $base;
     border-radius: 0.4rem;
     height: 4rem;
+    width: 100%;
   }
 
   .saveBtn {
     background-color: orange !important;
+  }
+
+  .firstDivider {
+    display: flex;
+    flex-direction: row;
+    // gap: 10rem;
+  }
+
+  .secondDivider {
+    display: flex;
+    flex-direction: row;
+    padding-right: 5rem;
+  }
+
+  .thirdDivider {
+    display: flex;
+    flex-direction: row;
+    // gap: 10rem;
+  }
+
+  .mainText {
+    font-size: 1rem;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .dividerLineOne {
+    display: flex;
+    flex-direction: row;
+    border-left: 4px solid #fec89a;
+    height: 3rem;
+    margin-right: 15rem;
+  }
+
+  .dividerLineTwo {
+    display: flex;
+    flex-direction: row;
+    border-left: 4px solid #fec89a;
+    height: 3rem;
+    margin-right: 15rem;
   }
 }
