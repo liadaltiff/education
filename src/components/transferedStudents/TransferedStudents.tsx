@@ -105,7 +105,13 @@ const TransferedStudents: React.FC = () => {
       </Modal>
 
       <Modal open={openSave} onClose={handleCloseSave}>
-        <div className={classes.container}></div>
+        <div className={classes.containerSave}>
+          <h1 className={classes.savePlanText}>הזן שם לתוכנית</h1>
+          <input className={classes.savePlanInput}></input>
+          <Button variant="contained" className={classes.savePlanBtn}>
+            שמור
+          </Button>
+        </div>
       </Modal>
     </div>
   );

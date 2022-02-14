@@ -22,7 +22,7 @@ const MyTable: React.FC<IMyTableProps> = ({ plan }) => {
           <th className={classes.amountStyle}>כמות</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody className={classes.main}>
         {plan &&
           plan.actions.map((plan, index) => (
             <PlanComponent
