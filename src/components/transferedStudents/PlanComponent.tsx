@@ -2,30 +2,32 @@ import { Plan } from "../../types/plan.type";
 import classes from "./transfered-students.module.scss";
 
 interface IPlanComponentProps {
-  plan: Plan;
+  sender: string;
+  senderType: string;
+  receiver: string;
+  receiverType: string;
+  amount: number;
 }
 
-const PlanComponent: React.VFC<IPlanComponentProps> = (
-  props: IPlanComponentProps
-) => {
-  const plan: Plan = props.plan;
-
+const PlanComponent: React.VFC<IPlanComponentProps> = ({
+  sender,
+  senderType,
+  receiver,
+  receiverType,
+  amount,
+}) => {
   return (
-    <table className={classes.stablePlan}>
-      <tbody>
-        <tr className={classes.trPlanHeader}>
-          <th className={classes.senderStyle}>
-            <span>{plan.actions[0].sender}</span>
-            <span>{plan.actions[0].senderType}</span>
-          </th>
-          <th className={classes.receiverStyle}>
-            <span>{plan.actions[0].receiver}</span>
-            <span>{plan.actions[0].receiverType}</span>
-          </th>
-          <th className={classes.amountStyle}>{plan.actions[0].amount}</th>
-        </tr>
-      </tbody>
-    </table>
+    <tr className={classes.trPlanHeader}>
+      <th className={classes.senderStyle}>
+        <span>{sender}</span>
+        <span>{senderType}</span>
+      </th>
+      <th className={classes.receiverStyle}>
+        <span>{receiver}</span>
+        <span>{receiverType}</span>
+      </th>
+      <th className={classes.amountStyle}>{amount}</th>
+    </tr>
   );
 };
 

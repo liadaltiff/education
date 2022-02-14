@@ -9,7 +9,7 @@ export interface Action {
 }
 
 export interface Plan {
-  id: string;
+  _id: string;
   name: string;
   actions: Action[];
 }

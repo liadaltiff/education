@@ -1,88 +1,53 @@
 import React, { useCallback, useEffect, useState } from "react";
-import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import classes from "./transfered-students.module.scss";
-import axios from "axios";
 import { Action, Plan } from "../../types/plan.type";
-import PlanComponent from "./PlanComponent";
-import { responseOk } from "../../utils/axios.util";
 import "sweetalert2/src/sweetalert2.scss";
-import Swal from "sweetalert2";
+import MyTable from "./MyTable";
 
 const TransferedStudents: React.FC = () => {
-  const [actions, setActions] = useState<Action[]>();
-
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  // const createPlan = useCallback(() => {
-  //   const sendRequest = async () => {
-  //     try {
-  //       const response = await axios.post(
-  //         "http://localhost:5000/plans/createPlan"
-  //       );
+  const [openSave, setOpenSave] = useState(false);
+  const handleOpenSave = () => setOpenSave(true);
+  const handleCloseSave = () => setOpenSave(false);
 
-  //       Swal.fire({
-  //         icon: "success",
-  //         title: "התורנות נוצרה בהצלחה",
-  //         showConfirmButton: false,
-  //         timer: 1500,
-  //       });
-  //       if (!responseOk(response)) {
-  //         throw new Error("response error");
-  //       }
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
+  const [plans, setPlans] = useState<Plan[]>();
+  // const [actions, setActions] = useState<Action[]>();
+  const [myPlan, setMyPlan] = useState<Plan>();
 
-  //   sendRequest();
-  // }, []);
+  const getLatestPlan = useCallback(async (planid: string) => {
+    const sendRequest = async () => {
+      try {
+        const resAll = await fetch("http://localhost:5000/plans/getPlans");
+        const data = await resAll.json();
+        setPlans(data);
+        setMyPlan(data[0]);
 
-  const showSwal = () => {
-    Swal.fire({
-      customClass: {
-        container: "my-swal",
-      },
-      icon: "success",
-      title: "התוכנית נשמרה בהצלחה",
-      showConfirmButton: false,
-      timer: 30000,
-    });
-  };
+        // console.log("u clicked", planid);
 
-  const getLatestPlan = useCallback(async () => {
-    try {
-      const response = await axios.get("http://localhost:5000/plans/getPlans");
+        if (planid) {
+          const resOne = await fetch(
+            `http://localhost:5000/plans/getPlan/${planid}`
+          );
+          const dataOne = await resOne.json();
 
-      if (!responseOk(response)) {
-        throw new Error("response error");
+          setMyPlan(dataOne);
+        }
+      } catch (error) {
+        console.error(error);
       }
+    };
 
-      setActions(response.data[0].actions);
-    } catch (error) {
-      console.error(error);
-    }
+    sendRequest();
   }, []);
 
   useEffect(() => {
-    // const getPlans = async () => {
-    //   try {
-    //     const res = await fetch("http://localhost:5000/plans/getPlans");
-    //     const result = await res.json();
-    //     setPlansState(result);
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // };
-    // getPlans();
-    getLatestPlan();
+    getLatestPlan("");
   }, []);
-
-  // console.log("plansState", plansState);
 
   return (
     <div className={classes.buttonPlacing}>
@@ -103,44 +68,33 @@ const TransferedStudents: React.FC = () => {
           <main className={classes.mainContent}>
             <section>
               <header>תוכניות שמורות</header>
-              <main>טקסט</main>
+              <main>
+                {plans &&
+                  plans.map((plan, index) => {
+                    return (
+                      <div>
+                        <h1
+                          className={classes.planNames}
+                          key={index}
+                          onClick={() => getLatestPlan(plan._id)}
+                        >
+                          {plan.name}
+                        </h1>
+                      </div>
+                    );
+                  })}
+              </main>
             </section>
 
             <section>
               <header>פירוט התוכנית הנוכחית</header>
-              <main>
-                <table className={classes.stablePlan}>
-                  <thead>
-                    <tr className={classes.trPlanHeader}>
-                      <th className={classes.senderStyle}>
-                        <span>מוסד שולח</span>
-                        <span>סוג</span>
-                      </th>
-                      <th className={classes.receiverStyle}>
-                        <span>מוסד מקבל</span>
-                        <span>סוג</span>
-                      </th>
-                      <th className={classes.amountStyle}>כמות</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {actions &&
-                      actions.map((action) => (
-                        <tr>
-                          {Object.values(action).map((value) => (
-                            <td>{value}</td>
-                          ))}
-                        </tr>
-                      ))}
-                  </tbody>
-                </table>
-              </main>
+              <main>{myPlan && <MyTable plan={myPlan} />}</main>
             </section>
           </main>
 
           <footer className={classes.footer}>
             <Button
-              onClick={showSwal}
+              onClick={handleOpenSave}
               variant="contained"
               className={classes.saveBtn}
             >
@@ -148,6 +102,10 @@ const TransferedStudents: React.FC = () => {
             </Button>
           </footer>
         </div>
+      </Modal>
+
+      <Modal open={openSave} onClose={handleCloseSave}>
+        <div className={classes.container}></div>
       </Modal>
     </div>
   );
