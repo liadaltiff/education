@@ -1,10 +1,7 @@
-import { FC, useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { SelectedInstituteContext } from "../../../../../contexts/instituteContext";
 import classes from "./institute-transfer.module.scss";
 import { distance } from "./utils";
-import data from "../../../../../../neighbourhoods.json";
-import { Institute } from "../../../../../types/institute.type";
-import { TextField } from "@mui/material";
 import { DataContext } from "../../../../../contexts/DataContext";
 
 function InstituteTransfer() {
@@ -66,15 +63,9 @@ function InstituteTransfer() {
                       העבר
                     </div>
                     <input
-                      // sx={{ width: "15ch" }}
                       className={classes.moveToInput}
                       id="filled-number"
-                      // label="כמות להעברה"
                       type="number"
-                      // InputLabelProps={{
-                      //   shrink: true,
-                      // }}
-                      // variant="filled"
                       placeholder="כמות להעברה"
                       onChange={(event) => {
                         setAmountToTransfer(Number(event.target.value));
