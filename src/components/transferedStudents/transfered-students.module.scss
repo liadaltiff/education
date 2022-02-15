@@ -126,7 +126,12 @@ $base: #fec89a;
     width: 100%;
   }
   .saveBtn {
+    margin-right: 1rem;
     background-color: orange !important;
+  }
+
+  .createNewPlanBtn {
+    background-color: blue !important;
   }
 
   .singleAction {
@@ -188,10 +193,10 @@ $base: #fec89a;
 
   .savePlanBtn {
     display: flex;
-    margin-right: 35%;
+    margin-right: 33.5%;
     margin-top: 10%;
     font-size: 1.5rem;
-    width: 12rem;
+    width: 14rem;
     background-color: orange !important;
   }
 }

@@ -1,10 +1,12 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import classes from "./transfered-students.module.scss";
-import { Action, Plan } from "../../types/plan.type";
+import { Plan } from "../../types/plan.type";
 import "sweetalert2/src/sweetalert2.scss";
 import MyTable from "./MyTable";
+import { DataContext } from "../../contexts/DataContext";
+import { useData } from "../../hooks/useData";
 
 const TransferedStudents: React.FC = () => {
   const [open, setOpen] = useState(false);
@@ -15,9 +17,11 @@ const TransferedStudents: React.FC = () => {
   const handleOpenSave = () => setOpenSave(true);
   const handleCloseSave = () => setOpenSave(false);
 
-  const [plans, setPlans] = useState<Plan[]>();
   // const [actions, setActions] = useState<Action[]>();
+  const [plans, setPlans] = useState<Plan[]>();
   const [myPlan, setMyPlan] = useState<Plan>();
+
+  const { data, setData } = useData();
 
   const getLatestPlan = useCallback(async (planid: string) => {
     const sendRequest = async () => {
@@ -27,8 +31,6 @@ const TransferedStudents: React.FC = () => {
         setPlans(data);
         setMyPlan(data[0]);
 
-        // console.log("u clicked", planid);
-
         if (planid) {
           const resOne = await fetch(
             `http://localhost:5000/plans/getPlan/${planid}`
@@ -36,6 +38,7 @@ const TransferedStudents: React.FC = () => {
           const dataOne = await resOne.json();
 
           setMyPlan(dataOne);
+          console.log("u chose plan", dataOne);
         }
       } catch (error) {
         console.error(error);
@@ -96,9 +99,13 @@ const TransferedStudents: React.FC = () => {
             <Button
               onClick={handleOpenSave}
               variant="contained"
-              className={classes.saveBtn}
+              className={classes.CreateNewPlanBtn}
             >
-              שמור
+              צור תורנות חדשה
+            </Button>
+
+            <Button variant="contained" className={classes.saveBtn}>
+              עדכן תורנות נוכחית
             </Button>
           </footer>
         </div>
@@ -109,7 +116,7 @@ const TransferedStudents: React.FC = () => {
           <h1 className={classes.savePlanText}>הזן שם לתוכנית</h1>
           <input className={classes.savePlanInput}></input>
           <Button variant="contained" className={classes.savePlanBtn}>
-            שמור
+            צור תורנות חדשה
           </Button>
         </div>
       </Modal>
