@@ -7,50 +7,74 @@ import "sweetalert2/src/sweetalert2.scss";
 import MyTable from "./MyTable";
 import { DataContext } from "../../contexts/DataContext";
 import { useData } from "../../hooks/useData";
+import axios from "axios";
+import { responseOk } from "../../utils/axios.util";
+
+const fetchPlans = async () => {
+  try {
+    const resAll = await fetch("http://localhost:5000/plans/getPlans");
+    const data = await resAll.json();
+    return data as Plan[];
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 const TransferedStudents: React.FC = () => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
   const [openSave, setOpenSave] = useState(false);
   const handleOpenSave = () => setOpenSave(true);
   const handleCloseSave = () => setOpenSave(false);
 
-  // const [actions, setActions] = useState<Action[]>();
   const [plans, setPlans] = useState<Plan[]>();
-  const [myPlan, setMyPlan] = useState<Plan>();
+  const [selectedPlan, setSelectedPlan] = useState<Plan>();
+
+  const [newPlanName, setNewPlanName] = useState("");
 
   const { data, setData } = useData();
 
-  const getLatestPlan = useCallback(async (planid: string) => {
-    const sendRequest = async () => {
-      try {
-        const resAll = await fetch("http://localhost:5000/plans/getPlans");
-        const data = await resAll.json();
-        setPlans(data);
-        setMyPlan(data[0]);
-
-        if (planid) {
-          const resOne = await fetch(
-            `http://localhost:5000/plans/getPlan/${planid}`
-          );
-          const dataOne = await resOne.json();
-
-          setMyPlan(dataOne);
-          console.log("u chose plan", dataOne);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    sendRequest();
+  const loadPlans = useCallback(async (plans: Promise<Plan[] | undefined>) => {
+    setPlans(await plans);
   }, []);
+
+  const loadSelectedPlan = useCallback(
+    async (plan: Plan) => {
+      setData.reset();
+
+      // const newData = data + changes(plan);
+      // setData(newData);
+
+      const newData = data;
+      console.log("newData", newData);
+    },
+    [data]
+  );
+
+  // useEffect(() => {
+  //   loadSelectedPlan(selectedPlan);
+  // }, [selectedPlan]);
 
   useEffect(() => {
-    getLatestPlan("");
+    loadPlans(fetchPlans());
   }, []);
+
+  const createNewPlan = useCallback(async () => {
+    try {
+      console.log("new plan name", newPlanName);
+      const response = await axios.post(
+        "http://localhost:5000/plans/createPlan",
+        { name: newPlanName, actions: [] }
+      );
+
+      if (!responseOk(response)) {
+        throw new Error("response error");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }, [newPlanName]);
 
   return (
     <div className={classes.buttonPlacing}>
@@ -79,7 +103,10 @@ const TransferedStudents: React.FC = () => {
                         <h1
                           className={classes.planNames}
                           key={index}
-                          onClick={() => getLatestPlan(plan._id)}
+                          onClick={() => {
+                            setSelectedPlan(plan);
+                            loadSelectedPlan(plan);
+                          }}
                         >
                           {plan.name}
                         </h1>
@@ -91,7 +118,7 @@ const TransferedStudents: React.FC = () => {
 
             <section>
               <header>פירוט התוכנית הנוכחית</header>
-              <main>{myPlan && <MyTable plan={myPlan} />}</main>
+              <main>{selectedPlan && <MyTable plan={selectedPlan} />}</main>
             </section>
           </main>
 
@@ -101,11 +128,11 @@ const TransferedStudents: React.FC = () => {
               variant="contained"
               className={classes.CreateNewPlanBtn}
             >
-              צור תורנות חדשה
+              צור תוכנית
             </Button>
 
             <Button variant="contained" className={classes.saveBtn}>
-              עדכן תורנות נוכחית
+              עדכן תוכנית
             </Button>
           </footer>
         </div>
@@ -114,9 +141,22 @@ const TransferedStudents: React.FC = () => {
       <Modal open={openSave} onClose={handleCloseSave}>
         <div className={classes.containerSave}>
           <h1 className={classes.savePlanText}>הזן שם לתוכנית</h1>
-          <input className={classes.savePlanInput}></input>
-          <Button variant="contained" className={classes.savePlanBtn}>
-            צור תורנות חדשה
+          <input
+            className={classes.savePlanInput}
+            value={newPlanName}
+            onChange={(e) => {
+              setNewPlanName(e.currentTarget.value);
+            }}
+          ></input>
+          <Button
+            variant="contained"
+            className={classes.savePlanBtn}
+            onClick={() => {
+              createNewPlan();
+              handleCloseSave();
+            }}
+          >
+            צור תוכנית
           </Button>
         </div>
       </Modal>
