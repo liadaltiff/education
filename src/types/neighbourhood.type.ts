@@ -28,3 +28,20 @@ export interface Properties {
   UniqueId: string;
   schools: School[];
 }
+
+export interface HoodProperties {
+  STATUS: string;
+  oidshchuna: number;
+  msshchuna: number;
+  dateimport: string;
+  ShapeArea: number;
+  shemshchun: string;
+  UniqueId: string;
+  schools: School[];
+}
+
+export interface Hood {
+  type: string;
+  properties: HoodProperties;
+  geometry: Geometry;
+}

@@ -7,7 +7,6 @@ import { SelectedInstituteContext } from "../../../../contexts/instituteContext"
 import { LevelContext } from "../../../../contexts/levelContext";
 import clsx from "clsx";
 import { placeLeft } from "../../../../utils/utils.util";
-import { NeighbourhoodInfoContext } from "../../../../contexts/neighbourhoodInfoContext";
 
 const Institutes = () => {
   const [instituteSearch, setInstituteSearch] = useState("");

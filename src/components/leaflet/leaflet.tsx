@@ -68,7 +68,7 @@ const Leaflet = () => {
   return (
     <div className={classes.map}>
       <MapContainer
-        center={[32.09, 34.8]}
+        center={[32.09, 34.79]}
         zoom={selectedZoom}
         scrollWheelZoom={true}
         zoomControl={false}

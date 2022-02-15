@@ -4,7 +4,6 @@ import classes from "./institute-transfer.module.scss";
 import { distance } from "./utils";
 import data from "../../../../../../neighbourhoods.json";
 import { Institute } from "../../../../../types/institute.type";
-import { NeighbourhoodInfoContext } from "../../../../../contexts/neighbourhoodInfoContext";
 
 interface SelectedInstituteProps {
   institute: Institute;
@@ -16,8 +15,6 @@ const InstituteTransfer: FC<SelectedInstituteProps> = ({ institute }) => {
   const [selectedInstituteState, setSelectedInstituteState] =
     useState<Number>();
   const [amountToTransfer, setAmountToTransfer] = useState(0);
-
-  const { neighbourhoodInfo } = useContext(NeighbourhoodInfoContext);
 
   const findSelectedInstitute = (selectedId: number) => {
     const schools = data.features.map(

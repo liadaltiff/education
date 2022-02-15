@@ -5,14 +5,14 @@ import App from "./App";
 import { CurrentTabProvider } from "./contexts/currentTabContext";
 import { NeighbourhoodProvider } from "./contexts/neighbourhoodContext";
 import { LevelProvider } from "./contexts/levelContext";
-import { NeighbourhoodInfoProvider } from "./contexts/neighbourhoodInfoContext";
 import { SelectedInstituteProvider } from "./contexts/instituteContext";
 import { BrowserRouter } from "react-router-dom";
+import { DataProvider } from "./contexts/DataContext";
 
 ReactDOM.render(
   <React.StrictMode>
     <NeighbourhoodProvider>
-      <NeighbourhoodInfoProvider>
+      <DataProvider>
         <CurrentTabProvider>
           <SelectedInstituteProvider>
             <LevelProvider>
@@ -22,7 +22,7 @@ ReactDOM.render(
             </LevelProvider>
           </SelectedInstituteProvider>
         </CurrentTabProvider>
-      </NeighbourhoodInfoProvider>
+      </DataProvider>
     </NeighbourhoodProvider>
   </React.StrictMode>,
   document.getElementById("root")
