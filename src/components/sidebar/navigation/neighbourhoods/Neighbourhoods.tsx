@@ -4,11 +4,14 @@ import data from "../../../../../neighbourhoods.json";
 import { CurrentTabContext } from "../../../../contexts/currentTabContext";
 import { NeighbourhoodContext } from "../../../../contexts/neighbourhoodContext";
 import { Polygon } from "../../../../types/neighbourhood.type";
+import { DataContext } from "../../../../contexts/DataContext";
 
 const Neighbourhoods = () => {
   const [neighbourhoodSearch, setNeighbourhoodSearch] = useState("");
   const { currentTab, setCurrentTab } = useContext(CurrentTabContext);
   const { selected, setSelected } = useContext(NeighbourhoodContext);
+
+  const { hoods, setHoods } = useContext(DataContext);
 
   const setContexts = (neighbourhood: Polygon) => {
     setCurrentTab("מוסדות");
@@ -27,7 +30,7 @@ const Neighbourhoods = () => {
         />
       </div>
       <div className={classes.neighbourhoodContainer}>
-        {data.features.map((neighbourhood) => {
+        {hoods.map((neighbourhood) => {
           if (neighbourhood.properties.shemshchun.includes(neighbourhoodSearch))
             return (
               <div

@@ -40,6 +40,11 @@ export const useData = () => {
           if (releventSchool) {
             const senderUpdatedAmount =
               releventSchool.total_students - LSParams.actions[i].amount;
+            console.log(
+              "sender starting amount",
+              releventSchool.total_students
+            );
+            console.log("amount sending", LSParams.actions[i].amount);
             console.log("senderUpdatedAmount", senderUpdatedAmount);
             releventSchool.total_students = senderUpdatedAmount;
           }
@@ -67,6 +72,8 @@ export const useData = () => {
           if (releventSchool) {
             const senderUpdatedAmount =
               releventSchool.total_students - LSParams.actions[i].amount;
+            releventSchool.total_students = senderUpdatedAmount;
+
             console.log(
               "senderUpdatedAmount for senthome",
               senderUpdatedAmount
@@ -77,9 +84,9 @@ export const useData = () => {
     }
   }, [hoods]);
 
-  const handlePlanChange = useCallback(() => {
-    setHoods(hoods);
-  }, [hoods]);
+  // const handlePlanChange = useCallback(() => {
+  //   setHoods(hoods);
+  // }, [hoods]);
 
   // console.log("hoods after change is", hoods);
 

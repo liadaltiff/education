@@ -27,6 +27,12 @@ const Institute = () => {
     }
   }, [selectedInstitute, places]);
 
+  // useEffect(() => {
+  //   if (selectedInstitute) {
+  //     setSelectedInstitute(selectedInstitute);
+  //   }
+  // }, [selectedInstitute]);
+
   return (
     <div className={classes.container}>
       <div className={classes.instituteInfo}>

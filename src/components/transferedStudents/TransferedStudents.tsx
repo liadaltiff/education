@@ -8,6 +8,7 @@ import MyTable from "./MyTable";
 import { useData } from "../../hooks/useData";
 import axios from "axios";
 import { responseOk } from "../../utils/axios.util";
+import { DataContext } from "../../contexts/DataContext";
 
 const fetchPlans = async () => {
   try {
@@ -25,6 +26,8 @@ export const emptyPlan: Plan = {
 };
 
 const TransferedStudents: React.FC = () => {
+  const { hoods, setHoods } = useContext(DataContext);
+
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -61,10 +64,9 @@ const TransferedStudents: React.FC = () => {
     async (plan: Plan) => {
       setData.reset();
       setLocalStoragePlan(plan);
-      // const newData = data + changes(plan);
       // setData(newData);
 
-      const newData = data;
+      const newData = hoods;
       console.log("newData", newData);
     },
     [data]
@@ -98,6 +100,7 @@ const TransferedStudents: React.FC = () => {
         "http://localhost:5000/plans/createPlan",
         { name: LSParams.name, actions: LSParams.actions }
       );
+
       if (!responseOk(response)) {
         throw new Error("response error");
       }
