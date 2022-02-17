@@ -4,16 +4,20 @@ import classes from "./transfered-students.module.scss";
 interface IPlanComponentProps {
   sender: string;
   senderType: string;
-  receiver: string;
-  receiverType: string;
+  senderID: number;
+  receiver?: string;
+  receiverType?: string;
+  receiverID?: number;
   amount: number;
 }
 
 const PlanComponent: React.VFC<IPlanComponentProps> = ({
   sender,
   senderType,
+  senderID,
   receiver,
   receiverType,
+  receiverID,
   amount,
 }) => {
   return (

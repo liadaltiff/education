@@ -92,12 +92,11 @@ const TransferedStudents: React.FC = () => {
 
   const updatePlan = useCallback(async () => {
     try {
-      const LSName: Plan = JSON.parse(localStorage.getItem("plan") ?? "");
-      const LSActions: Plan = JSON.parse(localStorage.getItem("plan") ?? "");
+      const LSParams: Plan = JSON.parse(localStorage.getItem("plan") ?? "");
 
       const response = await axios.post(
         "http://localhost:5000/plans/createPlan",
-        { name: LSName.name, actions: LSActions.actions }
+        { name: LSParams.name, actions: LSParams.actions }
       );
       if (!responseOk(response)) {
         throw new Error("response error");

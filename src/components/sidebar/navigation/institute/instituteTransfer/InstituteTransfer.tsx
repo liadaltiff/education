@@ -21,9 +21,11 @@ function InstituteTransfer() {
     typeOfAction: string,
     sender: string,
     senderType: string,
+    senderID: number,
     amount: number,
     receiver?: string,
-    receiverType?: string
+    receiverType?: string,
+    receiverID?: number
   ) => {
     const planFromLS = localStorage.getItem("plan");
     const plan = planFromLS ? (JSON.parse(planFromLS) as Plan) : emptyPlan;
@@ -32,9 +34,11 @@ function InstituteTransfer() {
       typeOfAction: typeOfAction,
       sender: sender,
       senderType: senderType,
+      senderID: senderID,
       amount: amount,
       receiver: receiver,
       receiverType: receiverType,
+      receiverID: receiverID,
     };
 
     plan.actions.push(
@@ -59,6 +63,7 @@ function InstituteTransfer() {
                   "SENDHOME",
                   selectedInstitute.name,
                   selectedInstitute.type,
+                  selectedInstitute.id,
                   selectedInstitute.total_students,
                   "נשלחו הביתה",
                   "בית"
@@ -93,10 +98,11 @@ function InstituteTransfer() {
                           "TRANSFER",
                           selectedInstitute.name,
                           selectedInstitute.type,
+                          selectedInstitute.id,
                           amountToTransfer,
                           choosenSchool[1],
-                          choosenSchool[3]
-                          // choosenSchool[0]
+                          choosenSchool[3],
+                          choosenSchool[0]
                         );
                       }}
                     >

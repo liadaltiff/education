@@ -3,9 +3,11 @@ export interface Action {
 
   sender: string;
   senderType: string;
+  senderID: number;
 
   receiver?: string;
   receiverType?: string;
+  receiverID?: number;
 
   amount: number;
 }

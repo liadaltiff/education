@@ -29,8 +29,10 @@ const MyTable: React.FC<IMyTableProps> = ({ plan }) => {
               key={index}
               sender={plan.sender}
               senderType={plan.senderType}
+              senderID={plan.senderID}
               receiver={plan.receiver}
               receiverType={plan.receiverType}
+              receiverID={plan.receiverID}
               amount={plan.amount}
             />
           ))}
