@@ -1,15 +1,16 @@
 export interface Action {
+  typeOfAction: string;
+
   sender: string;
   senderType: string;
 
-  receiver: string;
-  receiverType: string;
+  receiver?: string;
+  receiverType?: string;
 
   amount: number;
 }
 
 export interface Plan {
-  _id: string;
   name: string;
   actions: Action[];
 }

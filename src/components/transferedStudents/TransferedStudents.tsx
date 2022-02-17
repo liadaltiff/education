@@ -5,7 +5,6 @@ import classes from "./transfered-students.module.scss";
 import { Plan } from "../../types/plan.type";
 import "sweetalert2/src/sweetalert2.scss";
 import MyTable from "./MyTable";
-import { DataContext } from "../../contexts/DataContext";
 import { useData } from "../../hooks/useData";
 import axios from "axios";
 import { responseOk } from "../../utils/axios.util";
@@ -18,6 +17,11 @@ const fetchPlans = async () => {
   } catch (error) {
     console.error(error);
   }
+};
+
+export const emptyPlan: Plan = {
+  name: "",
+  actions: [],
 };
 
 const TransferedStudents: React.FC = () => {
@@ -39,10 +43,24 @@ const TransferedStudents: React.FC = () => {
     setPlans(await plans);
   }, []);
 
+  const setLocalStoragePlan = (plan: Plan) => {
+    localStorage.setItem("plan", JSON.stringify(plan));
+  };
+
+  const getLocalStoragePlan = () => {
+    const planFromLS = localStorage.getItem("plan");
+
+    if (planFromLS) {
+      return JSON.parse(planFromLS) as Plan;
+    } else {
+      return emptyPlan;
+    }
+  };
+
   const loadSelectedPlan = useCallback(
     async (plan: Plan) => {
       setData.reset();
-
+      setLocalStoragePlan(plan);
       // const newData = data + changes(plan);
       // setData(newData);
 
@@ -52,13 +70,9 @@ const TransferedStudents: React.FC = () => {
     [data]
   );
 
-  // useEffect(() => {
-  //   loadSelectedPlan(selectedPlan);
-  // }, [selectedPlan]);
-
   useEffect(() => {
     loadPlans(fetchPlans());
-  }, []);
+  }, [plans]);
 
   const createNewPlan = useCallback(async () => {
     try {
@@ -75,6 +89,27 @@ const TransferedStudents: React.FC = () => {
       console.error(error);
     }
   }, [newPlanName]);
+
+  const updatePlan = useCallback(async () => {
+    try {
+      const LSName: Plan = JSON.parse(localStorage.getItem("plan") ?? "");
+      const LSActions: Plan = JSON.parse(localStorage.getItem("plan") ?? "");
+
+      // console.log("nameeeeeeeeeeee", LSActions.name);
+      // console.log("actions", LSName.actions);
+      const response = await axios.post(
+        "http://localhost:5000/plans/createPlan",
+        { name: LSName.name, actions: LSActions.actions }
+      );
+      if (!responseOk(response)) {
+        throw new Error("response error");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }, []);
+
+  // console.log("actions", actions);
 
   return (
     <div className={classes.buttonPlacing}>
@@ -118,7 +153,9 @@ const TransferedStudents: React.FC = () => {
 
             <section>
               <header>פירוט התוכנית הנוכחית</header>
-              <main>{selectedPlan && <MyTable plan={selectedPlan} />}</main>
+              <main>
+                <MyTable plan={getLocalStoragePlan()} />
+              </main>
             </section>
           </main>
 
@@ -131,7 +168,13 @@ const TransferedStudents: React.FC = () => {
               צור תוכנית
             </Button>
 
-            <Button variant="contained" className={classes.saveBtn}>
+            <Button
+              onClick={() => {
+                updatePlan();
+              }}
+              variant="contained"
+              className={classes.saveBtn}
+            >
               עדכן תוכנית
             </Button>
           </footer>

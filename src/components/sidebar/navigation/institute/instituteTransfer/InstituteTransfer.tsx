@@ -3,6 +3,9 @@ import { SelectedInstituteContext } from "../../../../../contexts/instituteConte
 import classes from "./institute-transfer.module.scss";
 import { distance } from "./utils";
 import { DataContext } from "../../../../../contexts/DataContext";
+import { Action, Plan } from "../../../../../types/plan.type";
+import { PlanContext } from "../../../../../contexts/PlanContext";
+import { emptyPlan } from "../../../../transferedStudents/TransferedStudents";
 
 function InstituteTransfer() {
   const { selectedInstitute } = useContext(SelectedInstituteContext);
@@ -10,7 +13,38 @@ function InstituteTransfer() {
 
   const [amountToTransfer, setAmountToTransfer] = useState<number>(0);
   const [choosenSchool, setChoosenSchool] =
-    useState<[number, string, number]>();
+    useState<[number, string, number, string]>();
+
+  const { currentPlan, setCurrentPlan } = useContext(PlanContext);
+
+  const saveAction = (
+    typeOfAction: string,
+    sender: string,
+    senderType: string,
+    amount: number,
+    receiver?: string,
+    receiverType?: string
+  ) => {
+    const planFromLS = localStorage.getItem("plan");
+    const plan = planFromLS ? (JSON.parse(planFromLS) as Plan) : emptyPlan;
+
+    const newAction: Action = {
+      typeOfAction: typeOfAction,
+      sender: sender,
+      senderType: senderType,
+      amount: amount,
+      receiver: receiver,
+      receiverType: receiverType,
+    };
+
+    plan.actions.push(
+      newAction.typeOfAction === "SENDHOME"
+        ? { ...newAction, receiver: undefined, receiverType: undefined }
+        : newAction
+    );
+
+    localStorage.setItem("plan", JSON.stringify(plan));
+  };
 
   return (
     <div className={classes.container}>
@@ -21,11 +55,14 @@ function InstituteTransfer() {
             <div
               className={classes.sendHome}
               onClick={() => {
-                // saveMovment(
-                //   "SENDHOME",
-                //   selectedInstitute.id,
-                //   selectedInstitute.total_students
-                // );
+                saveAction(
+                  "SENDHOME",
+                  selectedInstitute.name,
+                  selectedInstitute.type,
+                  selectedInstitute.total_students,
+                  "נשלחו הביתה",
+                  "בית"
+                );
               }}
             >
               שלח הביתה
@@ -36,7 +73,7 @@ function InstituteTransfer() {
       <div className={classes.instituteContainer}>
         {selectedInstitute &&
           hoods &&
-          distance(selectedInstitute).map((school: any) => {
+          distance(hoods, selectedInstitute).map((school: any) => {
             return (
               <div className={classes.schoolContainer}>
                 <div
@@ -52,12 +89,15 @@ function InstituteTransfer() {
                     <div
                       className={classes.send}
                       onClick={() => {
-                        // saveMovment(
-                        //   "TRANSFER",
-                        //   selectedInstitute.id,
-                        //   amountToTransfer,
-                        //   choosenSchool[0]
-                        // );
+                        saveAction(
+                          "TRANSFER",
+                          selectedInstitute.name,
+                          selectedInstitute.type,
+                          amountToTransfer,
+                          choosenSchool[1],
+                          choosenSchool[3]
+                          // choosenSchool[0]
+                        );
                       }}
                     >
                       העבר

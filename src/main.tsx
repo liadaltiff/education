@@ -8,6 +8,7 @@ import { LevelProvider } from "./contexts/levelContext";
 import { SelectedInstituteProvider } from "./contexts/instituteContext";
 import { BrowserRouter } from "react-router-dom";
 import { DataProvider } from "./contexts/DataContext";
+import { PlanProvider } from "./contexts/PlanContext";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -16,9 +17,11 @@ ReactDOM.render(
         <CurrentTabProvider>
           <SelectedInstituteProvider>
             <LevelProvider>
-              <BrowserRouter>
-                <App />
-              </BrowserRouter>
+              <PlanProvider>
+                <BrowserRouter>
+                  <App />
+                </BrowserRouter>
+              </PlanProvider>
             </LevelProvider>
           </SelectedInstituteProvider>
         </CurrentTabProvider>
