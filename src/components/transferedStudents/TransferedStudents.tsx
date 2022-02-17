@@ -95,8 +95,6 @@ const TransferedStudents: React.FC = () => {
       const LSName: Plan = JSON.parse(localStorage.getItem("plan") ?? "");
       const LSActions: Plan = JSON.parse(localStorage.getItem("plan") ?? "");
 
-      // console.log("nameeeeeeeeeeee", LSActions.name);
-      // console.log("actions", LSName.actions);
       const response = await axios.post(
         "http://localhost:5000/plans/createPlan",
         { name: LSName.name, actions: LSActions.actions }
